@@ -1,0 +1,17 @@
+{
+  "name": "backend-assessment",
+  "version": "1.0.0",
+  "description": "Assesment Backend",
+  "main": "index.js",
+  "scripts": {
+    "start":"node ./src/index"
+  },
+  "author": {
+    "name": "Germán Navarro Murgui",
+    "email": "gernamur@gmail.com"
+  },
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
