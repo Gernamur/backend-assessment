@@ -1,0 +1,3 @@
+#!/bin/bash
+for js in "$@"; do node "$js"; done
+

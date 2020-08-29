@@ -1,10 +1,16 @@
 {
   "name": "backend-assessment",
+  "type": "module",
   "version": "1.0.0",
   "description": "Assesment Backend",
   "main": "index.js",
   "scripts": {
-    "start":"node ./src/index"
+    "start": "cross-env NODE_ENV=production node src/index",
+    "start:dev": "cross-env NODE_ENV=development node src/index",
+    "test": "cross-env NODE_ENV=test ./run-many ./tests | tap-spec",
+    "apidoc": "npm run apidoc:generate && npm run apidoc:serve",
+    "apidoc:generate": "apidoc -i ./src/controllers apidoc",
+    "apidoc:serve": "http-server -p 3999 -o doc"
   },
   "author": {
     "name": "Germán Navarro Murgui",
@@ -12,6 +18,18 @@
   },
   "license": "ISC",
   "dependencies": {
-    "express": "^4.17.1"
+    "apidoc": "^0.25.0",
+    "axios": "^0.20.0",
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "cross-env": "^7.0.2",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "express-jwt": "^6.0.0",
+    "http-server": "^0.12.3",
+    "jsonwebtoken": "^8.5.1",
+    "supertest": "^4.0.2",
+    "tap-spec": "^5.0.0",
+    "tape": "^5.0.1"
   }
 }
