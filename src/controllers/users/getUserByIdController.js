@@ -1,4 +1,5 @@
 import { ok, notFound } from '../../responses.js'
+import { to } from '../../await-to.js'
 import { getUserById } from '../../services/users/getUserById.js'
 
 /**
@@ -24,15 +25,11 @@ import { getUserById } from '../../services/users/getUserById.js'
  * @apiErrorExample {json} Error
  * HTTP/1.1 404 Not Found
  */
-const getUserByIdController = (req, res, next) => {
-    getUserById(req.params.id)
-        .then(
-            result => {
-                if (result) return ok(result, req, res)
-                return notFound(req, res)
-            }
-        )
-        .catch(err => next(err))
+const getUserByIdController = async (req, res, next) => {
+    let [result, err] = await to(getUserById(req.params.id))
+    if (err) return next(err)
+    if (result) return ok(result, req, res)
+    return notFound(req, res)
 }
 
 export { getUserByIdController }

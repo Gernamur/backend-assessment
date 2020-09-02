@@ -1,4 +1,5 @@
 import { ok } from '../../responses.js'
+import { to } from '../../await-to.js'
 import { getUsers } from '../../services/users/getUsers.js'
 
 
@@ -32,16 +33,15 @@ import { getUsers } from '../../services/users/getUsers.js'
  * ]
  * 
  */
-const getUsersController = (req, res, next) => {
+const getUsersController = async (req, res, next) => {
     let params = {
         name: req.query.name,
         policyId: req.query.policyId
     }
 
-    getUsers(params).then(
-        result => ok(result, req, res)
-    )
-        .catch(err => next(err))
+    let [result, err] = await to(getUsers(params))
+    if (err) return next(err)
+    return ok(result, req, res)
 }
 
 export { getUsersController }

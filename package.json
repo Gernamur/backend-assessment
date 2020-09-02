@@ -10,7 +10,8 @@
     "test": "cross-env NODE_ENV=test ./run-many ./tests | tap-spec",
     "apidoc": "npm run apidoc:generate && npm run apidoc:serve",
     "apidoc:generate": "apidoc -i ./src/controllers apidoc",
-    "apidoc:serve": "http-server -p 3999 -o doc"
+    "apidoc:serve": "http-server -p 3999 -o doc",
+    "lint":"eslint ."
   },
   "author": {
     "name": "Germán Navarro Murgui",
@@ -31,5 +32,8 @@
     "supertest": "^4.0.2",
     "tap-spec": "^5.0.0",
     "tape": "^5.0.1"
+  },
+  "devDependencies": {
+    "eslint": "^7.8.1"
   }
 }

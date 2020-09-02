@@ -1,4 +1,5 @@
 import { ok, notFound } from '../../responses.js'
+import { to } from '../../await-to.js'
 import { getPolicyById } from '../../services/policies/getPolicyById.js'
 
 /**
@@ -26,15 +27,11 @@ import { getPolicyById } from '../../services/policies/getPolicyById.js'
  * @apiErrorExample {json} Error
  * HTTP/1.1 404 Not Found
  */
-const getPolicyByIdController = (req, res, next) => {
-        getPolicyById(req.params.id)
-        .then(
-            result => {
-                if (result) return ok(result, req, res)
-                return notFound(req, res)
-            }
-        )
-        .catch(err => next(err))
+const getPolicyByIdController = async (req, res, next) => {
+    let [result, err] = await to(getPolicyById(req.params.id))
+    if (err) return next(err)
+    if (result) return ok(result, req, res)
+    return notFound(req, res)
 }
 
 export { getPolicyByIdController }

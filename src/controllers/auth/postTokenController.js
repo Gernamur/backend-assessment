@@ -1,5 +1,6 @@
 import jwt from 'jsonwebtoken'
 import { created, notFound } from '../../responses.js'
+import { to } from '../../await-to.js'
 
 import { getUsers } from '../../services/users/getUsers.js'
 
@@ -21,22 +22,19 @@ import { getUsers } from '../../services/users/getUsers.js'
  * }
  * 
  */
-const postTokenController = (req, res, next) => {
-    getUsers({})
-        .then(
-            users => {
-                let user = users.find(x => x.email == req.body.email && x.id == req.body.password)
-                if (user)
-                    return jwt.sign(user, process.env.API_SECRET, { algorithm: 'HS256', expiresIn: '1h' },
-                        function (err, token) {
-                            if (err) return next(err)
-                            return created({ token }, req, res)
-                        }
-                    )
-                return notFound(req, res)
+const postTokenController = async (req, res, next) => {
+    let [users, err] = await to(getUsers({}))
+    if (err) return next(err)
+    
+    let user = users.find(x => x.email === req.body.email && x.id === req.body.password)
+    if (user)
+        return jwt.sign(user, process.env.API_SECRET, { algorithm: 'HS256', expiresIn: '1h' },
+            function (err, token) {
+                if (err) return next(err)
+                return created({ token }, req, res)
             }
         )
-        .catch(err => next(err))
+    return notFound(req, res)
 }
 
 export { postTokenController }

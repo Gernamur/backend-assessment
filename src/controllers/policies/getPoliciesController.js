@@ -1,4 +1,5 @@
 import { ok } from '../../responses.js'
+import { to } from '../../await-to.js'
 import { getPolicies } from '../../services/policies/getPolicies.js'
 
 /**
@@ -31,11 +32,10 @@ import { getPolicies } from '../../services/policies/getPolicies.js'
  *      // ...
  * ]
  */
-const getPoliciesController = (req, res, next) => {
-    getPolicies().then(
-        result => ok(result, req, res)
-    )
-        .catch(err => next(err))
+const getPoliciesController = async (req, res, next) => {
+    let [result, err] = await to(getPolicies())
+    if (err) return next(err)
+    return ok(result, req, res)
 }
 
 export { getPoliciesController }

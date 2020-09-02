@@ -1,4 +1,4 @@
-const indexController = (req, res, next) => {
+const indexController = (req, res) => {
     res.status(200).send("Server up!");
 };
 

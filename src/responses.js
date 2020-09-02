@@ -4,7 +4,7 @@ const unauthorized = (req, res) => res.status(401).json()
 const forbidden = (req, res) => res.status(403).json()
 const notFound = (req, res) => res.status(404).json()
 const conflict = (req, res) => res.status(409).json()
-const serverError = (err, req, res) => res.status(500).json(process.env.NODE_ENV == 'development' ? {
+const serverError = (err, req, res) => res.status(500).json(process.env.NODE_ENV === 'development' ? {
     message: err.message,
     stack: err.stack
 } : {

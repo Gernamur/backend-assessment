@@ -35,7 +35,7 @@ app.use(function (req, res) {
 });
 
 // 500 - Global Error Handler
-app.use(function (err, req, res, next) {
+app.use(function (err, req, res) {
   if (err.name === 'UnauthorizedError') return unauthorized(req, res)
   if (!res.headersSent) serverError(err, req, res)
 })
